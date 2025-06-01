@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  apiBasePath: 'TODO'  // URL de production
+  apiBasePath: 'TODO',
+  defaultLanguage: 'fr-FR',
+  supportedLanguages: ['en-US', 'fr-FR']
 };
