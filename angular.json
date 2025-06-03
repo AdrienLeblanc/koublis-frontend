@@ -30,6 +30,7 @@
           "options": {
             "outputPath": "dist/koublis-frontend",
             "index": "src/index.html",
+            "inlineStyleLanguage": "scss",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -70,9 +71,12 @@
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
