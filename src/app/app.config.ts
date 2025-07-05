@@ -16,7 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideTranslateService(),
+    provideTranslateService({
+      defaultLanguage: 'fr'
+    }),
     importProvidersFrom(
       ApiModule.forRoot(
         () =>

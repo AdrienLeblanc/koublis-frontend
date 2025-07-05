@@ -3,15 +3,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-loader',
-  standalone: true,
   imports: [MatProgressSpinnerModule],
   template: `
     <div [hidden]="!isLoading">
-      <mat-progress-spinner
-        mode="indeterminate"
-        [strokeWidth]="2"
-        [diameter]="32 * size"
-      ></mat-progress-spinner>
+      <mat-progress-spinner mode="indeterminate" [strokeWidth]="2" [diameter]="32 * size"></mat-progress-spinner>
       <span class="message">{{ message }}</span>
     </div>
   `,

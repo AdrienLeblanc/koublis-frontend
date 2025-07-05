@@ -7,7 +7,6 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-language-selector',
-  standalone: true,
   imports: [
     MatIcon,
     MatMenuTrigger,
@@ -16,36 +15,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
     MatMenu,
     MatMenuItem,
   ],
-  template: `
-    @if (icon) {
-      <button
-        *ngIf="icon; else text"
-        mat-icon-button
-        [matMenuTriggerFor]="languageMenu"
-      >
-        <mat-icon>language</mat-icon>
-      </button>
-    } @else {
-      <button
-        mat-raised-button
-        color="primary"
-        [matMenuTriggerFor]="languageMenu"
-      >
-        {{ currentLanguage }}
-      </button>
-    }
-
-    <mat-menu #languageMenu="matMenu">
-      @for (language of languages; track language) {
-        <button
-          mat-menu-item
-          (click)="setLanguage(language)"
-        >
-          {{ language }}
-        </button>
-      }
-    </mat-menu>
-  `,
+  templateUrl: './language-selector.component.html',
 })
 export class LanguageSelectorComponent implements OnInit {
   @Input() icon = false;

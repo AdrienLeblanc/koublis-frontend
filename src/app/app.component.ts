@@ -1,51 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Logger } from '@shared';
 import { filter, map, merge, switchMap } from 'rxjs';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterOutlet,
-} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from '@app/i18n';
 import { environment } from '@env/environment';
-import { FooterComponent } from '@app/pages/footer/footer.component';
-import { HeaderComponent } from '@app/pages/header/header.component';
-import { NavigationComponent } from '@app/pages/navigation/navigation.component';
 
 const log = new Logger('App');
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    HeaderComponent,
-    RouterOutlet,
-    FooterComponent,
-    NavigationComponent,
-  ],
+  imports: [RouterOutlet],
   template: `
     <main>
-      <app-header></app-header>
       <section>
         <router-outlet />
-        <app-navigation />
       </section>
     </main>
-
-    <app-footer />
   `,
 })
 export class AppComponent {
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title,
-    private translateService: TranslateService,
-    private i18nService: I18nService,
-  ) {}
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private translateService = inject(TranslateService);
+  private i18nService = inject(I18nService);
 
   ngOnInit() {
     // Setup logger
@@ -56,14 +36,9 @@ export class AppComponent {
     log.debug('init');
 
     // Setup translations
-    this.i18nService.init(
-      environment.defaultLanguage,
-      environment.supportedLanguages,
-    );
+    this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
-    const onNavigationEnd = this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-    );
+    const onNavigationEnd = this.router.events.pipe(filter((event) => event instanceof NavigationEnd));
 
     // Change page title on navigation or language change, based on route data
     merge(this.translateService.onLangChange, onNavigationEnd)

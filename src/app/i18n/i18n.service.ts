@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
@@ -18,10 +18,12 @@ export class I18nService {
 
   private langChangeSubscription!: Subscription;
 
-  constructor(private translateService: TranslateService) {
+  private translateService = inject(TranslateService);
+
+  constructor() {
     // Embed languages to avoid extra HTTP requests
-    translateService.setTranslation('en-US', enUS);
-    translateService.setTranslation('fr-FR', frFR);
+    this.translateService.setTranslation('en-US', enUS);
+    this.translateService.setTranslation('fr-FR', frFR);
   }
 
   /**
