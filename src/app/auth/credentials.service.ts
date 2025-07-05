@@ -21,7 +21,7 @@ const credentialsKey = 'credentials';
 })
 export class CredentialsService {
 
-  private _credentials: Credentials | null = null;
+  private _credentials: Credentials | undefined = undefined;
 
   constructor() {
     const savedCredentials = sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey);
@@ -40,9 +40,9 @@ export class CredentialsService {
 
   /**
    * Gets the user credentials.
-   * @return The user credentials or null if the user is not authenticated.
+   * @return The user credentials or undefined if the user is not authenticated.
    */
-  get credentials(): Credentials | null {
+  get credentials(): Credentials | undefined {
     return this._credentials;
   }
 
@@ -54,7 +54,7 @@ export class CredentialsService {
    * @param remember True to remember credentials across sessions.
    */
   setCredentials(credentials?: Credentials, remember?: boolean) {
-    this._credentials = credentials || null;
+    this._credentials = credentials || undefined;
 
     if (credentials) {
       const storage = remember ? localStorage : sessionStorage;

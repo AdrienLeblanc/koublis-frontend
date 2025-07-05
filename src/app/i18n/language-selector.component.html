@@ -1,9 +1,5 @@
 @if (icon) {
-  <button
-    *ngIf="icon; else text"
-    mat-icon-button
-    [matMenuTriggerFor]="languageMenu"
-  >
+  <button mat-icon-button [matMenuTriggerFor]="languageMenu">
     <mat-icon>language</mat-icon>
   </button>
 } @else {

@@ -33,7 +33,7 @@ const log = new Logger('Login');
   ],
 })
 export class LoginComponent implements OnInit {
-  version: string | null = environment.version;
+  version: string | undefined = environment.version;
   error: string | undefined;
   loginForm!: FormGroup;
   isLoading = false;

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from '@app/auth/login.component';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { AUTH_ROUTES } from '@app/auth/auth.routes';
+import { ABOUT_ROUTES } from '@app/about/about.routes';
+import { HOME_ROUTES } from '@app/home/home.routes';
 
-export const routes: Routes = [{ path: 'login', component: LoginComponent, data: { title: marker('Login') } }];
+export const routes: Routes = [...HOME_ROUTES, ...AUTH_ROUTES, ...ABOUT_ROUTES];

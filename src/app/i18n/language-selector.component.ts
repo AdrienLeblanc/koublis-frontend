@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 
 import { I18nService } from './i18n.service';
 import { MatIcon } from '@angular/material/icon';
@@ -7,20 +7,13 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-language-selector',
-  imports: [
-    MatIcon,
-    MatMenuTrigger,
-    MatIconButton,
-    MatButton,
-    MatMenu,
-    MatMenuItem,
-  ],
+  imports: [MatIcon, MatMenuTrigger, MatIconButton, MatButton, MatMenu, MatMenuItem],
   templateUrl: './language-selector.component.html',
 })
 export class LanguageSelectorComponent implements OnInit {
   @Input() icon = false;
 
-  constructor(private i18nService: I18nService) {}
+  i18nService = inject(I18nService);
 
   ngOnInit() {}
 
