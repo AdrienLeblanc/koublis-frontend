@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
@@ -38,15 +38,12 @@ export class ShellComponent implements OnInit {
   private credentialsService = inject(CredentialsService);
   private breakpoint = inject(BreakpointObserver);
 
+  username = computed(() => this.credentialsService.credentials()?.username);
+
   ngOnInit() {}
 
   logout() {
     this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
-  }
-
-  get username(): string | undefined {
-    const credentials = this.credentialsService.credentials;
-    return credentials?.username;
   }
 
   get isMobile(): boolean {

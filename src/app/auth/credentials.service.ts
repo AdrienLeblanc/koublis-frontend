@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 export interface Credentials {
   type?: string;
@@ -21,29 +21,15 @@ const credentialsKey = 'credentials';
 })
 export class CredentialsService {
 
-  private _credentials: Credentials | undefined = undefined;
+  private _credentials = signal<Credentials | undefined>(undefined);
+  credentials = computed(() => this._credentials());
+  isAuthenticated = computed(() => !!this._credentials());
 
   constructor() {
     const savedCredentials = sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey);
     if (savedCredentials) {
-      this._credentials = JSON.parse(savedCredentials);
+      this._credentials.set(JSON.parse(savedCredentials));
     }
-  }
-
-  /**
-   * Checks is the user is authenticated.
-   * @return True if the user is authenticated.
-   */
-  isAuthenticated(): boolean {
-    return !!this.credentials;
-  }
-
-  /**
-   * Gets the user credentials.
-   * @return The user credentials or undefined if the user is not authenticated.
-   */
-  get credentials(): Credentials | undefined {
-    return this._credentials;
   }
 
   /**
@@ -54,7 +40,7 @@ export class CredentialsService {
    * @param remember True to remember credentials across sessions.
    */
   setCredentials(credentials?: Credentials, remember?: boolean) {
-    this._credentials = credentials || undefined;
+    this._credentials.set(credentials || undefined);
 
     if (credentials) {
       const storage = remember ? localStorage : sessionStorage;
