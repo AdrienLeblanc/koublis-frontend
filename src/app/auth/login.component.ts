@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { finalize } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
-import { LoaderComponent, Logger, UntilDestroy, untilDestroyed } from '@shared';
+import { LoaderComponent, Logger } from '@shared';
 import { AuthenticationService } from './authentication.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -12,10 +12,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '@app/i18n';
 import { MatButtonModule } from '@angular/material/button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('Login');
 
-@UntilDestroy()
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           this.loginForm.markAsPristine();
           this.isLoading.set(false);
         }),
-        untilDestroyed(this),
+        takeUntilDestroyed(),
       )
       .subscribe((credentials) => {
         log.debug(`${credentials.username} successfully logged in`);

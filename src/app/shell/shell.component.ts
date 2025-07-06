@@ -40,22 +40,28 @@ export class ShellComponent implements OnInit {
   private breakpoint = inject(BreakpointObserver);
 
   private _isMobile = signal(false);
+  private _title = signal(this.titleService.getTitle());
+
   isMobile = computed(() => this._isMobile());
   username = computed(() => this.credentialsService.credentials()?.username);
+  title = computed(() => this._title());
 
-  ngOnInit() {
+  constructor() {
     this.breakpoint
-      .observe([Breakpoints.Small, Breakpoints.XSmall])
-      .subscribe((result) => {
-        this._isMobile.set(result.matches);
-      });
+        .observe([Breakpoints.Small, Breakpoints.XSmall])
+        .pipe(takeUntilDestroyed())
+        .subscribe((result) => {
+          this._isMobile.set(result.matches);
+        });
+
+    this.router.events.pipe(takeUntilDestroyed()).subscribe(() => {
+      this._title.set(this.titleService.getTitle());
+    });
   }
+
+  ngOnInit() {}
 
   logout() {
     this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
-  }
-
-  get title(): string {
-    return this.titleService.getTitle();
   }
 }
