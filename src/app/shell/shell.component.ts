@@ -11,6 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { LanguageSelectorComponent } from '@app/i18n';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-shell',
@@ -23,8 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     MatListModule,
     LanguageSelectorComponent,
+    TranslateModule,
     RouterModule,
     MatButtonModule,
+    MatCard,
   ],
 })
 export class ShellComponent implements OnInit {

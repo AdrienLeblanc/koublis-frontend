@@ -7,10 +7,6 @@ import { LoaderComponent } from '@shared';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styles: `
-    .container {
-      text-align: center;
-      padding: 1em;
-    }
   `,
   imports: [MatCardModule, LoaderComponent],
 })
