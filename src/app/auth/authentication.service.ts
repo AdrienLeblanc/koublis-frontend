@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, of, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 import { Credentials, CredentialsService } from './credentials.service';
 import { AuthControllerService } from '@koublis/api-client';
@@ -27,9 +27,9 @@ export class AuthenticationService {
    * @return The user credentials.
    */
   login(context: LoginContext): Observable<Credentials> {
-    return this.authControllerService.authenticateUser({ loginRequest: context }).pipe(
-      tap((credentials) => this.credentialsService.setCredentials(credentials, context.remember)),
-    );
+    return this.authControllerService
+      .authenticateUser({ loginRequest: context })
+      .pipe(tap((credentials) => this.credentialsService.setCredentials(credentials, context.remember)));
   }
 
   /**

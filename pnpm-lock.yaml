@@ -42,8 +42,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       '@koublis/api-client':
-        specifier: 1.0.0
-        version: 1.0.0(@angular/core@20.0.0(@angular/compiler@20.0.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+        specifier: 1.0.1
+        version: 1.0.1(@angular/core@20.0.0(@angular/compiler@20.0.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@ngx-rocket/scripts':
         specifier: ^5.2.3
         version: 5.2.3
@@ -1178,8 +1178,8 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@koublis/api-client@1.0.0':
-    resolution: {integrity: sha512-N6pARHZAjRnsLrmx1D1eNqcpYLAEk7yti8K4I5keWi3k+YifatvlkzP8LE3ysXHspiuIMqPWI6yLhYG3nQOGng==}
+  '@koublis/api-client@1.0.1':
+    resolution: {integrity: sha512-UKWeLfs4L60Ll9cFyjEx0lMF+G0kCkVT/ibga2t19dk8Q8aqbVv6cACqKVE+eHgv6JbAzwsO495Z2Ivr1qvxrQ==}
     peerDependencies:
       '@angular/core': ^19.0.2
       rxjs: ^7.8.0
@@ -5596,7 +5596,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@koublis/api-client@1.0.0(@angular/core@20.0.0(@angular/compiler@20.0.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)':
+  '@koublis/api-client@1.0.1(@angular/core@20.0.0(@angular/compiler@20.0.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)':
     dependencies:
       '@angular/core': 20.0.0(@angular/compiler@20.0.0)(rxjs@7.8.2)(zone.js@0.15.1)
       rxjs: 7.8.2

@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { LoaderComponent, Logger, UntilDestroy, untilDestroyed } from '@shared';
 import { AuthenticationService } from './authentication.service';
-import { EMPTY } from 'rxjs'
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -59,11 +58,6 @@ export class LoginComponent implements OnInit {
         finalize(() => {
           this.loginForm.markAsPristine();
           this.isLoading = false;
-        }),
-        catchError((error: string) => {
-          log.debug(`Login error: ${error}`);
-          this.error = error;
-          return EMPTY;
         }),
         untilDestroyed(this),
       )

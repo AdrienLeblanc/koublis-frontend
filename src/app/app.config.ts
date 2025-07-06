@@ -1,23 +1,20 @@
-import {
-  ApplicationConfig,
-  importProvidersFrom,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { environment } from '../environments/environment';
+import { environment } from '@env/environment';
 
 import { routes } from './app.routes';
 import { ApiModule, Configuration } from '@koublis/api-client';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
+import { apiPrefixInterceptor, errorHandlerInterceptor } from '@shared';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([apiPrefixInterceptor, errorHandlerInterceptor])),
     provideTranslateService({
-      defaultLanguage: 'fr'
+      defaultLanguage: 'fr',
     }),
     importProvidersFrom(
       ApiModule.forRoot(
