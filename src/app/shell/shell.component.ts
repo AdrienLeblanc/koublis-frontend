@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
@@ -13,6 +13,7 @@ import { LanguageSelectorComponent } from '@app/i18n';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCard } from '@angular/material/card';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-shell',
@@ -38,16 +39,20 @@ export class ShellComponent implements OnInit {
   private credentialsService = inject(CredentialsService);
   private breakpoint = inject(BreakpointObserver);
 
+  private _isMobile = signal(false);
+  isMobile = computed(() => this._isMobile());
   username = computed(() => this.credentialsService.credentials()?.username);
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.breakpoint
+      .observe([Breakpoints.Small, Breakpoints.XSmall])
+      .subscribe((result) => {
+        this._isMobile.set(result.matches);
+      });
+  }
 
   logout() {
     this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
-  }
-
-  get isMobile(): boolean {
-    return this.breakpoint.isMatched(Breakpoints.Small) || this.breakpoint.isMatched(Breakpoints.XSmall);
   }
 
   get title(): string {
