@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { LoaderComponent } from '@shared';
@@ -6,15 +6,12 @@ import { LoaderComponent } from '@shared';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styles: `
-  `,
   imports: [MatCardModule, LoaderComponent],
 })
 export class HomeComponent implements OnInit {
-  quote: string | undefined;
-  isLoading = false;
+  isLoading = signal(false);
 
   ngOnInit() {
-    this.isLoading = true;
+    this.isLoading.set(true);
   }
 }

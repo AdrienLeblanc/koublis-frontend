@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnInit } from '@angular/core';
 
 import { I18nService } from './i18n.service';
 import { MatIcon } from '@angular/material/icon';
@@ -11,21 +11,17 @@ import { MatButton, MatIconButton } from '@angular/material/button';
   templateUrl: './language-selector.component.html',
 })
 export class LanguageSelectorComponent implements OnInit {
-  @Input() icon = false;
+  icon = input(false);
 
   i18nService = inject(I18nService);
 
   ngOnInit() {}
 
+  currentLanguage = computed(() => this.i18nService.currentLanguage());
+  languages = computed(() => this.i18nService.supportedLanguages());
+
   setLanguage(language: string) {
     this.i18nService.language = language;
   }
 
-  get currentLanguage(): string {
-    return this.i18nService.language;
-  }
-
-  get languages(): string[] {
-    return this.i18nService.supportedLanguages;
-  }
 }

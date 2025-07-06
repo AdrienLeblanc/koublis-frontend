@@ -56,8 +56,4 @@ export class AppComponent {
         }
       });
   }
-
-  ngOnDestroy() {
-    this.i18nService.destroy();
-  }
 }

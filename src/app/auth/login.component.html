@@ -2,7 +2,7 @@
   <div class="d-flex flex-column align-items-center gap-2">
     <h1 class="align-items-center" translate>APP_NAME</h1>
     <div class="d-flex align-items-center gap-2">
-      <h4>v{{ version }}</h4>
+      <h4>v{{ version() }}</h4>
       <app-language-selector [icon]="true"/>
     </div>
   </div>
@@ -37,7 +37,7 @@
           </mat-slide-toggle>
 
           <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
-            <app-loader [isLoading]="isLoading"></app-loader>
+            <app-loader [isLoading]="isLoading()"></app-loader>
             <span translate>Login</span>
           </button>
         </div>

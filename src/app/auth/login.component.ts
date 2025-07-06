@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -36,10 +36,10 @@ const log = new Logger('Login');
   ],
 })
 export class LoginComponent implements OnInit {
-  version: string | undefined = environment.version;
-  error: string | undefined;
   loginForm!: FormGroup;
-  isLoading = false;
+  version = signal<string | undefined>(environment.version);
+  error = signal<string | undefined>(undefined);
+  isLoading = signal(false);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -51,13 +51,13 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.authenticationService
       .login(this.loginForm.value)
       .pipe(
         finalize(() => {
           this.loginForm.markAsPristine();
-          this.isLoading = false;
+          this.isLoading.set(false);
         }),
         untilDestroyed(this),
       )

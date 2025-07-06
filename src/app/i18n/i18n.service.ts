@@ -1,6 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Logger } from '@shared';
 import enUS from '../../translations/en-US.json';
@@ -13,17 +12,25 @@ const languageKey = 'language';
   providedIn: 'root',
 })
 export class I18nService {
-  defaultLanguage!: string;
-  supportedLanguages!: string[];
-
-  private langChangeSubscription!: Subscription;
-
   private translateService = inject(TranslateService);
+
+  private defaultLanguage = signal<string>('');
+  private _supportedLanguages = signal<string[]>([]);
+  private _currentLanguage = signal<string>('');
+  supportedLanguages = computed(() => this._supportedLanguages());
+  currentLanguage = computed(() => this._currentLanguage());
 
   constructor() {
     // Embed languages to avoid extra HTTP requests
     this.translateService.setTranslation('en-US', enUS);
     this.translateService.setTranslation('fr-FR', frFR);
+
+    effect(() => {
+      const lang = this._currentLanguage();
+      if (lang && this.translateService.currentLang !== lang) {
+        this.translateService.use(lang);
+      }
+    });
   }
 
   /**
@@ -33,25 +40,9 @@ export class I18nService {
    * @param supportedLanguages The list of supported languages.
    */
   init(defaultLanguage: string, supportedLanguages: string[]) {
-    this.defaultLanguage = defaultLanguage;
-    this.supportedLanguages = supportedLanguages;
+    this.defaultLanguage.set(defaultLanguage);
+    this._supportedLanguages.set(supportedLanguages);
     this.language = '';
-
-    // Warning: this subscription will always be alive for the app's lifetime
-    this.langChangeSubscription = this.translateService.onLangChange.subscribe(
-      (event: LangChangeEvent) => {
-        localStorage.setItem(languageKey, event.lang);
-      },
-    );
-  }
-
-  /**
-   * Cleans up language change subscription.
-   */
-  destroy() {
-    if (this.langChangeSubscription) {
-      this.langChangeSubscription.unsubscribe();
-    }
   }
 
   /**
@@ -62,31 +53,25 @@ export class I18nService {
    */
   set language(language: string) {
     let newLanguage =
-      language ||
-      localStorage.getItem(languageKey) ||
-      this.translateService.getBrowserCultureLang() ||
-      '';
-    let isSupportedLanguage = this.supportedLanguages.includes(newLanguage);
+      language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang() || '';
+    let isSupportedLanguage = this._supportedLanguages().includes(newLanguage);
 
     // If no exact match is found, search without the region
     if (newLanguage && !isSupportedLanguage) {
       newLanguage = newLanguage.split('-')[0];
       newLanguage =
-        this.supportedLanguages.find((supportedLanguage) =>
-          supportedLanguage.startsWith(newLanguage),
-        ) || '';
+        this._supportedLanguages().find((supportedLanguage) => supportedLanguage.startsWith(newLanguage)) || '';
       isSupportedLanguage = Boolean(newLanguage);
     }
 
     // Fallback if language is not supported
     if (!newLanguage || !isSupportedLanguage) {
-      newLanguage = this.defaultLanguage;
+      newLanguage = this.defaultLanguage();
     }
 
-    language = newLanguage;
-
-    log.debug(`Language set to ${language}`);
-    this.translateService.use(language);
+    log.debug(`Language set to ${newLanguage}`);
+    localStorage.setItem(languageKey, newLanguage);
+    this._currentLanguage.set(newLanguage);
   }
 
   /**
@@ -94,6 +79,6 @@ export class I18nService {
    * @return The current language code.
    */
   get language(): string {
-    return this.translateService.currentLang;
+    return this._currentLanguage();
   }
 }
