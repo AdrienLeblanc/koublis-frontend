@@ -10,7 +10,7 @@ import { EMPTY } from 'rxjs'
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '@app/i18n';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -20,14 +20,18 @@ const log = new Logger('Login');
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styles: `
+    .login-error {
+      color: var(--mat-sys-error);
+    }
+  `,
   imports: [
     MatCardModule,
     ReactiveFormsModule,
     MatInputModule,
     MatSlideToggleModule,
     LoaderComponent,
-    TranslatePipe,
+    TranslateModule,
     LanguageSelectorComponent,
     MatButtonModule,
   ],

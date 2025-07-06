@@ -13,11 +13,7 @@ const log = new Logger('App');
   selector: 'app-root',
   imports: [RouterOutlet],
   template: `
-    <main>
-      <section>
-        <router-outlet />
-      </section>
-    </main>
+    <router-outlet />
   `,
 })
 export class AppComponent {
