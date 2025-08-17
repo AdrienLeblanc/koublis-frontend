@@ -1,6 +1,8 @@
 <mat-card-content class="d-flex flex-column align-items-center gap-4">
   <mat-card-title translate>Hello world !</mat-card-title>
   <mat-card-subtitle>
-    <app-loader [isLoading]="isLoading()" [size]="1.5"></app-loader>
+    @if (isLoading()) {
+      <app-loader [size]="1.5" />
+    }
   </mat-card-subtitle>
 </mat-card-content>

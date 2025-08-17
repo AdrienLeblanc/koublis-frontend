@@ -72,3 +72,38 @@
 
 .mw-100 { max-width: 100% !important; }
 .min-w-100 { min-width: 100% !important; }
+
+.text-title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.text-subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.text-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.info {
+  color: var(--mat-sys-info);
+}
+
+.success {
+  color: var(--mat-sys-success);
+}
+
+.warning {
+  color: var(--mat-sys-warning);
+}
+
+.error {
+  color: var(--mat-sys-error);
+}

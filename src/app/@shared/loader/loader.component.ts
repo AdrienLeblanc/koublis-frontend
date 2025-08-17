@@ -5,9 +5,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   selector: 'app-loader',
   imports: [MatProgressSpinnerModule],
   template: `
-    <div [hidden]="!isLoading()">
+    <div class="d-flex flex-row gap-2 align-items-center">
       <mat-progress-spinner mode="indeterminate" [strokeWidth]="2" [diameter]="diameter()"></mat-progress-spinner>
-      <span class="message">{{ message() }}</span>
+      <span class="message text-label">{{ message() }}</span>
     </div>
   `,
   styles: `
@@ -22,7 +22,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   `,
 })
 export class LoaderComponent implements OnInit {
-  isLoading = input(false);
   size = input(1);
   message = input<string | undefined>(undefined);
 

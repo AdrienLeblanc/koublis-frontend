@@ -10,8 +10,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageSelectorComponent } from '@app/i18n';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
+import { NgOptimizedImage } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('Login');
@@ -20,8 +21,11 @@ const log = new Logger('Login');
   selector: 'app-login',
   templateUrl: './login.component.html',
   styles: `
-    .login-error {
-      color: var(--mat-sys-error);
+    .login-card {
+      height: 500px;
+      width: 800px;
+      margin: 50px auto;
+      text-align: center;
     }
   `,
   imports: [
@@ -29,10 +33,11 @@ const log = new Logger('Login');
     ReactiveFormsModule,
     MatInputModule,
     MatSlideToggleModule,
-    LoaderComponent,
     TranslateModule,
-    LanguageSelectorComponent,
     MatButtonModule,
+    MatDivider,
+    NgOptimizedImage,
+    LoaderComponent,
   ],
 })
 export class LoginComponent implements OnInit {
