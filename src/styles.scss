@@ -1,25 +1,70 @@
 @use '@angular/material' as mat;
 @use 'styles/utilities';
+@use 'theme/palettes' as palettes;
 
-// Roboto
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+// Cellier : Instrument Serif pour les titres d'affichage, Karla pour l'interface.
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Karla:wght@400;500;700&display=swap');
 
 html {
   color-scheme: light dark;
+
   @include mat.theme((
-    color: mat.$m2-pink-palette,
-    typography: mat.m2-define-rem-typography-config(),
-    density: 0
+    color: (
+      primary: palettes.$primary,
+      tertiary: palettes.$tertiary,
+    ),
+    typography: (
+      plain-family: 'Karla',
+      brand-family: 'Karla',
+      bold-weight: 700,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+    density: 0,
   ));
+
+  // Jetons propres à l'app, dérivés du thème.
+  // `& {}` : les déclarations suivent des règles imbriquées (mat.theme), cf. sass-lang.com/d/mixed-decls.
+  & {
+    --kb-display-font: 'Instrument Serif', Georgia, serif;
+    --kb-radius: 2px;
+    --kb-color-red: #7a2233;
+    --kb-color-white: #d9c38a;
+    --kb-color-rose: #e0a08c;
+    --kb-color-sparkling: #c9b26a;
+  }
 }
+
+// Le sélecteur de thème du ThemeService force le schéma, sinon on suit l'OS.
+html[data-theme='light'] { color-scheme: light; }
+html[data-theme='dark'] { color-scheme: dark; }
 
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Karla', sans-serif;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }
 
-* {
-  font-family: inherit;
+* { font-family: inherit; }
+
+// Angles quasi droits sur toute la surface Material.
+.mat-mdc-card, .mat-mdc-dialog-surface, .mat-mdc-text-field-wrapper,
+.mat-mdc-menu-panel, .mat-bottom-sheet-container {
+  border-radius: var(--kb-radius) !important;
+}
+
+.kb-display {
+  font-family: var(--kb-display-font);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.kb-overline {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mat-sys-on-surface-variant);
 }

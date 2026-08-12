@@ -1,0 +1,43 @@
+<div class="kb-toolbar">
+  <mat-chip-listbox [value]="colorFilter()" (change)="colorFilter.set($any($event).value)">
+    <mat-chip-option value="all" translate>All</mat-chip-option>
+    @for (color of colors; track color) {
+      <mat-chip-option [value]="color">{{ color | translate }}</mat-chip-option>
+    }
+  </mat-chip-listbox>
+
+  <mat-form-field class="kb-search" subscriptSizing="dynamic">
+    <mat-icon matPrefix>filter_list</mat-icon>
+    <input matInput [ngModel]="query()" (ngModelChange)="query.set($any($event))"
+           [placeholder]="'Filter this collection' | translate" />
+  </mat-form-field>
+</div>
+
+<div class="kb-rows">
+  @for (wine of wines(); track wine.id) {
+    <div class="kb-row">
+      <span class="kb-swatch" [style.background]="swatch(wine.color)"></span>
+
+      <span class="kb-row-main">
+        <span class="kb-row-name">{{ wine.name }}</span>
+        <span class="kb-row-meta">{{ wine.vintage }} · {{ wine?.color ?? '' | translate }} · {{ wine.regions?.join(' · ') }}</span>
+        @if (wine.slot || wine.price) {
+          <span class="kb-row-extra">{{ wine.slot }} @if (wine.price) { · {{ wine.price }} € }</span>
+        }
+      </span>
+
+      <span class="kb-stepper">
+        <button mat-icon-button (click)="changeCount(wine, -1)" [attr.aria-label]="'Remove one' | translate">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <span class="kb-display kb-count">{{ wine.count }}</span>
+        <button mat-icon-button (click)="changeCount(wine, 1)" [attr.aria-label]="'Add one' | translate">
+          <mat-icon>add</mat-icon>
+        </button>
+      </span>
+    </div>
+    <mat-divider />
+  } @empty {
+    <p class="kb-empty" translate>No bottles here yet. Add some from the catalog.</p>
+  }
+</div>

@@ -1,0 +1,19 @@
+<div class="kb-grid">
+  @for (card of cards(); track card.id) {
+    <mat-card class="kb-cave" appearance="outlined" (click)="open(card.id)" tabindex="0">
+      <span class="kb-overline">{{ card.bottles }} <span translate>Bottles</span></span>
+      <span class="kb-display kb-cave-name">{{ card.name }}</span>
+      <span class="kb-bars">
+        @for (bar of card.bars; track bar.color) {
+          <span [style.width.%]="bar.share" [style.background]="bar.color"></span>
+        }
+      </span>
+      <span class="kb-meta">{{ card.references }} <span translate>references</span></span>
+    </mat-card>
+  }
+
+  <button mat-stroked-button class="kb-new" (click)="create()">
+    <mat-icon>add</mat-icon>
+    <span translate>New collection</span>
+  </button>
+</div>

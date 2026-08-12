@@ -1,0 +1,47 @@
+@if (cavesService.loading()) {
+  <app-loader [size]="1.5" />
+}
+
+<div class="kb-stats">
+  <div class="kb-stat">
+    <span class="kb-overline" translate>Bottles</span>
+    <span class="kb-display kb-stat-value">{{ totalBottles() }}</span>
+  </div>
+  <div class="kb-stat">
+    <span class="kb-overline" translate>Collections</span>
+    <span class="kb-display kb-stat-value">{{ cavesService.caves().length }}</span>
+  </div>
+</div>
+
+<section class="kb-section">
+  <h6 class="kb-overline" translate>Breakdown by color</h6>
+  <div class="kb-bar">
+    @for (entry of breakdown(); track entry.color) {
+      <span [style.width.%]="entry.share" [style.background]="entry.swatch"></span>
+    }
+  </div>
+  <div class="kb-legend">
+    @for (entry of breakdown(); track entry.color) {
+      <span><i [style.background]="entry.swatch"></i>{{ entry.color | translate }} {{ entry.count }}</span>
+    }
+  </div>
+</section>
+
+<section class="kb-section">
+  <h6 class="kb-overline" translate>Recently added</h6>
+  @for (wine of recent(); track wine.id) {
+    <button class="kb-recent" (click)="openCave(wine.caveId)">
+      <span class="kb-recent-main">
+        <span class="kb-recent-name">{{ wine.name }}</span>
+        <span class="kb-recent-meta">{{ wine.vintage }} · {{ wine.caveName }}</span>
+      </span>
+      <span class="kb-display">×{{ wine.count }}</span>
+    </button>
+    <mat-divider />
+  }
+</section>
+
+<button mat-fab extended class="kb-fab" (click)="openCatalog()">
+  <mat-icon>add</mat-icon>
+  <span translate>Add a wine</span>
+</button>

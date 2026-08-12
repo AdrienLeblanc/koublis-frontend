@@ -1,0 +1,16 @@
+@for (entry of wishlistService.entries(); track entry.id) {
+  <div class="kb-row">
+    <span class="kb-swatch" [style.background]="swatch(entry.color)"></span>
+    <span class="kb-main">
+      <span class="kb-name">{{ entry.name }}</span>
+      <span class="kb-meta">{{ entry.vintage }} · {{ entry.regions?.join(' · ') }}</span>
+    </span>
+    <button mat-stroked-button (click)="moveToCellar(entry)" translate>Move to cellar</button>
+    <button mat-icon-button (click)="wishlistService.remove(entry.id)" [attr.aria-label]="'Remove' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-divider />
+} @empty {
+  <p class="kb-empty" translate>Nothing on your wishlist yet.</p>
+}

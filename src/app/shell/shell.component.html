@@ -1,52 +1,67 @@
-<div class="d-flex">
-  <mat-sidenav-container class="h-100">
-    <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" [disableClose]="!isMobile()">
-      <mat-toolbar color="primary">
-        <span translate>APP_NAME</span>
-        <div>
-          <button mat-icon-button [matMenuTriggerFor]="userMenu">
-            <mat-icon>person</mat-icon>
-          </button>
-          <mat-menu #userMenu="matMenu">
-            <mat-list>
-              <mat-list-item>
-                <span translate>Logged in as</span>&nbsp;<b>{{ username() }}</b>
-              </mat-list-item>
-              <mat-divider></mat-divider>
-            </mat-list>
-            <button mat-menu-item (click)="logout()"><span translate>Logout</span></button>
-          </mat-menu>
-        </div>
-        <app-language-selector [icon]="true"></app-language-selector>
-      </mat-toolbar>
-      <nav>
-        <mat-list>
-          <mat-divider></mat-divider>
-          <a mat-list-item routerLink="/home" routerLinkActive="active" (click)="isMobile() && sidenav.close()">
-            <span translate>Home</span>
-          </a>
-          <mat-divider></mat-divider>
-          <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile() && sidenav.close()">
-            <span translate>About</span>
-          </a>
-          <mat-divider></mat-divider>
-        </mat-list>
-      </nav>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar color="primary" class="mat-elevation-z6">
-        <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+<mat-sidenav-container class="h-100">
+  <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" [disableClose]="!isMobile()">
+    <div class="kb-brand kb-display" translate>APP_NAME</div>
+    <mat-divider />
+
+    <mat-nav-list>
+      @for (item of navItems; track item.path) {
+        <a mat-list-item [routerLink]="item.path" routerLinkActive="active"
+           (click)="isMobile() && sidenav.close()">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label | translate }}</span>
+        </a>
+      }
+    </mat-nav-list>
+
+    <div class="kb-sidenav-footer">
+      <mat-divider />
+      <button mat-button (click)="themeService.toggle()">
+        <mat-icon>{{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        <span>{{ (themeService.isDark() ? 'Light' : 'Dark') | translate }}</span>
+      </button>
+      <app-language-selector [icon]="false" />
+      <button mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span translate>Logout</span>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="mat-elevation-z2">
+      @if (isMobile()) {
+        <button class="menu-button" mat-icon-button (click)="sidenav.toggle()" [attr.aria-label]="'Menu' | translate">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>{{ title() }}</span>
-      </mat-toolbar>
-      <div class="flex-grow-1">
-        <div class="d-flex h-100">
-          <mat-card class="flex-1">
-            <router-outlet></router-outlet>
-          </mat-card>
+      }
+      <span class="kb-title kb-display">{{ title() }}</span>
+      <span class="kb-spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" [attr.aria-label]="'Profile' | translate">
+        <mat-icon>person</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <div class="kb-menu-user">
+          <span translate>Logged in as</span>&nbsp;<b>{{ username() }}</b>
         </div>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+        <mat-divider />
+        <button mat-menu-item routerLink="/profile"><span translate>Profile</span></button>
+        <button mat-menu-item (click)="logout()"><span translate>Logout</span></button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <main class="kb-content">
+      <router-outlet />
+    </main>
+
+    @if (isMobile()) {
+      <nav class="kb-tabs">
+        @for (item of tabItems; track item.path) {
+          <a [routerLink]="item.path" routerLinkActive="active">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span>{{ item.label | translate }}</span>
+          </a>
+        }
+      </nav>
+    }
+  </mat-sidenav-content>
+</mat-sidenav-container>

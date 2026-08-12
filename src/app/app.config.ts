@@ -1,9 +1,9 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { environment } from '@env/environment';
 
 import { routes } from './app.routes';
-import { ApiModule, Configuration } from '@koublis/api-client';
+import { Configuration } from '@koublis/api-client';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { apiPrefixInterceptor, errorHandlerInterceptor } from '@shared';
@@ -14,13 +14,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiPrefixInterceptor, errorHandlerInterceptor])),
     provideTranslateService(),
-    importProvidersFrom(
-      ApiModule.forRoot(
-        () =>
-          new Configuration({
-            basePath: environment.apiBasePath,
-          }),
-      ),
-    ),
+    // Équivalent de `ApiModule.forRoot()`, sans passer par l'interop NgModule :
+    // les services du client sont `providedIn: 'root'` et n'ont besoin que de la Configuration.
+    {
+      provide: Configuration,
+      useFactory: () =>
+        new Configuration({
+          basePath: environment.apiBasePath,
+        }),
+    },
   ],
 };

@@ -1,0 +1,35 @@
+<div class="kb-identity">
+  <span class="kb-avatar">{{ initials() }}</span>
+  <span>
+    <span class="kb-username">{{ username() }}</span>
+    <span class="kb-overline" translate>Logged in as</span>
+  </span>
+</div>
+
+<mat-divider />
+
+<section>
+  <h6 class="kb-overline" translate>Theme</h6>
+  <mat-button-toggle-group [value]="themeService.mode()" (change)="setTheme($any($event).value)">
+    <mat-button-toggle value="light" translate>Light</mat-button-toggle>
+    <mat-button-toggle value="dark" translate>Dark</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>
+
+<section>
+  <h6 class="kb-overline" translate>Language</h6>
+  <mat-button-toggle-group [value]="i18nService.currentLanguage()" (change)="setLanguage($any($event).value)">
+    @for (language of i18nService.supportedLanguages(); track language) {
+      <mat-button-toggle [value]="language">{{ language }}</mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+</section>
+
+<mat-divider />
+
+<p class="kb-about"><span translate>Version</span> {{ version }} · {{ apiBasePath }}</p>
+
+<button mat-stroked-button class="kb-logout" (click)="logout()">
+  <mat-icon>logout</mat-icon>
+  <span translate>Logout</span>
+</button>

@@ -1,0 +1,61 @@
+// Palettes Material 3 « Cellier ».
+// Générées à la main à partir de l'accent #7A2233 ; à régénérer proprement avec
+//   ng generate @angular/material:theme-color
+// si l'on veut les rampes complètes produites par Material.
+//
+// IMPORTANT : `mat.theme` ne lit `secondary`, `neutral`, `neutral-variant` et
+// `error` que sous forme de sous-maps de la palette *primary* (cf.
+// @angular/material/core/theming/_definition.scss). Sans elles, tous les jetons
+// dérivés — surface, on-surface, outline, error… — sont émis vides
+// (`light-dark(, )`) et l'app se retrouve en texte sombre sur fond sombre.
+
+@use 'sass:map';
+
+// Rampes secondaires / neutres, extraites pour rester lisibles ; elles sont
+// fusionnées dans $primary juste en dessous.
+
+$secondary: (
+  0: #000000, 10: #2b151a, 20: #43292e, 25: #4f3439, 30: #5b3f44, 35: #684a50,
+  40: #75565b, 50: #8f6e74, 60: #aa878d, 70: #c6a1a7, 80: #e3bcc2, 90: #ffd9de,
+  95: #ffecee, 98: #fff8f8, 99: #fffbff, 100: #ffffff,
+);
+
+$neutral: (
+  0: #000000, 4: #120c0b, 6: #17100e, 10: #191211, 12: #1e1615, 17: #251b19,
+  20: #2a1b18, 22: #2f201c, 24: #33231f, 25: #352522, 30: #40302c, 35: #4a332e,
+  40: #57413b, 50: #6e5750, 60: #9a7f76, 70: #b8a099, 80: #d6c4bc, 87: #e6dcd2,
+  90: #eee3d8, 92: #f2e8de, 94: #f5ece3, 95: #f7efe7, 96: #f9f2eb, 98: #fbf7f2,
+  99: #fdfaf7, 100: #ffffff,
+);
+
+$neutral-variant: (
+  0: #000000, 10: #241a19, 20: #3a2e2d, 25: #453938, 30: #524443, 35: #5e504e,
+  40: #6b5b5a, 50: #857472, 60: #a08d8b, 70: #bba8a5, 80: #d8c3c0, 90: #f5dedc,
+  95: #ffedeb, 98: #fff8f7, 99: #fffbff, 100: #ffffff,
+);
+
+$error: (
+  0: #000000, 10: #410002, 20: #690005, 25: #7e0007, 30: #93000a, 35: #a80710,
+  40: #ba1a1a, 50: #de3730, 60: #ff5449, 70: #ff897d, 80: #ffb4ab, 90: #ffdad6,
+  95: #ffedea, 98: #fff8f7, 99: #fffbff, 100: #ffffff,
+);
+
+$primary: map.merge(
+  (
+    0: #000000, 10: #3d0f19, 20: #5c1926, 25: #6a1c2c, 30: #7a2233, 35: #8a2b3d,
+    40: #9a3446, 50: #b8495c, 60: #c9758a, 70: #d998a6, 80: #e8bcc4, 90: #f7e8e6,
+    95: #fbf1ef, 98: #fdf8f6, 99: #fefbfa, 100: #ffffff,
+  ),
+  (
+    secondary: $secondary,
+    neutral: $neutral,
+    neutral-variant: $neutral-variant,
+    error: $error,
+  )
+);
+
+$tertiary: (
+  0: #000000, 10: #3a1d0e, 20: #55301c, 25: #613827, 30: #6e4031, 35: #7c4a39,
+  40: #8a5442, 50: #a86b56, 60: #c36a4a, 70: #d79a80, 80: #e6bda9, 90: #f4e0d3,
+  95: #faf0e8, 98: #fdf8f4, 99: #fefbf9, 100: #ffffff,
+);

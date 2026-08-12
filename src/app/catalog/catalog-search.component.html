@@ -1,0 +1,36 @@
+<div class="kb-search-bar">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput [formControl]="search" [placeholder]="'Château, variety, region' | translate" />
+  </mat-form-field>
+  <button mat-stroked-button (click)="add()">
+    <mat-icon>edit_note</mat-icon>
+    <span translate>Manual entry</span>
+  </button>
+</div>
+
+@if (isLoading()) {
+  <app-loader />
+}
+
+<p class="kb-overline">{{ results().totalElements }} <span translate>results</span></p>
+
+<div class="kb-results">
+  @for (wine of results().content; track wine.title) {
+    <div class="kb-result">
+      <span class="kb-score kb-display">{{ wine.points }}</span>
+      <span class="kb-result-main">
+        <span class="kb-result-title">{{ wine.title }}</span>
+        <span class="kb-result-meta">{{ wine.winery }} · {{ wine.variety }} · {{ wine.region1 }}, {{ wine.country }}</span>
+        <span class="kb-result-desc">{{ wine.description }}</span>
+      </span>
+      <button mat-flat-button (click)="add(wine)">
+        <mat-icon>add</mat-icon>
+        <span translate>Add</span>
+      </button>
+    </div>
+    <mat-divider />
+  } @empty {
+    <p class="kb-empty" translate>No wine matches. Try another term or manual entry.</p>
+  }
+</div>

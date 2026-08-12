@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h2 class="kb-display kb-sheet-title" translate>Add to your cellar</h2>
+
+  <div class="kb-fields">
+    <mat-form-field>
+      <mat-label translate>Name</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Collection</mat-label>
+      <mat-select formControlName="caveId" required>
+        @for (cave of data.caves; track cave.id) {
+          <mat-option [value]="cave.id">{{ cave.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Quantity</mat-label>
+      <input matInput type="number" min="1" formControlName="count" required />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Vintage</mat-label>
+      <input matInput type="number" formControlName="vintage" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Color</mat-label>
+      <mat-select formControlName="color">
+        @for (color of colors; track color) {
+          <mat-option [value]="color">{{ color | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Region</mat-label>
+      <input matInput formControlName="regions" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Slot</mat-label>
+      <input matInput formControlName="slot" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label translate>Purchase price</mat-label>
+      <input matInput type="number" formControlName="price" />
+    </mat-form-field>
+
+    <mat-form-field class="kb-span">
+      <mat-label translate>Personal notes</mat-label>
+      <textarea matInput rows="2" formControlName="notes"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="kb-actions">
+    <button mat-button type="button" (click)="cancel()" translate>Cancel</button>
+    <button mat-flat-button type="submit" translate>Save</button>
+  </div>
+</form>

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -46,10 +46,11 @@ export class LoginComponent implements OnInit {
   error = signal<string | undefined>(undefined);
   isLoading = signal(false);
 
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private formBuilder = inject(FormBuilder);
-  private authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.createForm();
@@ -64,7 +65,7 @@ export class LoginComponent implements OnInit {
           this.loginForm.markAsPristine();
           this.isLoading.set(false);
         }),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((credentials) => {
         log.debug(`${credentials.username} successfully logged in`);
